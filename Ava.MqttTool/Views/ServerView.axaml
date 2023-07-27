@@ -1,0 +1,53 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+             Width="600" Height="500"
+             Title="MQTT服务端"
+             x:Class="Ava.MqttTool.Views.ServerView" Padding="10">
+    <Grid ColumnDefinitions="200,Auto,*">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="主机地址"/>
+            <TextBox x:Name="Ip" Text="127.0.0.1"/>
+            <TextBlock  Text="端口"/>
+            <TextBox x:Name="Port" Text="1883"/>
+            <TextBlock Text="用户名"/>
+            <TextBox x:Name="UserName" Text="username"/>
+            <TextBlock Text="密码"/>
+            <TextBox x:Name="Password" Text="123456"/>
+        
+            <Button Content="启动" Name="Start"  Click="Start_OnClick"/>
+            <Button Content="停止" Name="Stop" Click="Stop_OnClick"/>
+            <Button Content="打开客户端" Name="NewClient" Click="NewClient_OnClick"/>
+        </StackPanel>
+    
+        <GridSplitter Grid.Column="1" />
+        <Panel  Grid.Column="2">
+            <Grid RowDefinitions="*,*">
+                <Grid ColumnDefinitions="*,5,*">
+                    <suki:GroupBox Header="在线客户端列表" Classes="my">
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top"
+                                 Height="{Binding $parent.Height}" Padding="0" x:Name="ClientsTextBox" />
+                    </suki:GroupBox>
+                    
+                    <suki:GroupBox Header="Topic主题列表" Classes="my"  Grid.Column="2">
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top"
+                                 Height="{Binding $parent.Height}" Padding="0" x:Name="TopicTextBox"/>
+                    </suki:GroupBox>
+
+                </Grid>
+                
+                
+                <Grid   Grid.Row="1">
+                    <suki:GroupBox Header="消息" Classes="my">
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top"
+                                 Height="{Binding $parent.Height}" Padding="0" Name="BoxMessage" />
+                    </suki:GroupBox>
+                </Grid>
+            </Grid>
+            
+        </Panel>
+    </Grid>
+</Window>
