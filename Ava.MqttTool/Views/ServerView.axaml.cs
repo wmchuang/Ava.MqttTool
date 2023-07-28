@@ -78,6 +78,7 @@ public partial class ServerView : Window
         _mqttServer.InterceptingPublishAsync += args =>
         {
             Log($"收到客户端{args.ClientId}的消息: {args.ApplicationMessage.ConvertPayloadToString()}");
+            Log($"  Qos: {args.ApplicationMessage.QualityOfServiceLevel.ToString()}");
             return Task.CompletedTask;
         };
         _mqttServer.ClientSubscribedTopicAsync += args =>

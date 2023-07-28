@@ -41,6 +41,7 @@ public partial class ClientView : Window
         {
             var str = args.ApplicationMessage.ConvertPayloadToString();
             Log($"收到消息 {str}");
+            Log($"  Qos: {args.ApplicationMessage.QualityOfServiceLevel.ToString()}");
             return Task.CompletedTask;
         };
     }
