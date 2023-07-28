@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using MQTTnet;
 using MQTTnet.Client;
+using SkiaSharp;
 
 namespace Ava.MqttTool.Views;
 
@@ -30,10 +31,15 @@ public partial class ClientView : Window
             Log("客户端已成功连接");
             return Task.CompletedTask;
         };
+        _mqttClient.DisconnectedAsync += args =>
+        {
+            Log("客户端已断开连接");
+            return Task.CompletedTask;
+        };
 
         _mqttClient.ApplicationMessageReceivedAsync += args =>
         {
-            var str = Encoding.UTF8.GetString(args.ApplicationMessage.PayloadSegment.ToArray());
+            var str = args.ApplicationMessage.ConvertPayloadToString();
             Log($"收到消息 {str}");
             return Task.CompletedTask;
         };
@@ -42,9 +48,10 @@ public partial class ClientView : Window
     private void Start_OnClick(object? sender, RoutedEventArgs e)
     {
         var mqttClientOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer(Ip.Text)
+            .WithTcpServer(Ip.Text,Convert.ToInt32(Port.Text))
             .WithoutPacketFragmentation()
             .WithClientId(ClientId.Text)
+            .WithCredentials(UserName.Text,Password.Text)
             .Build();
 
         TaskClient.Run(async () =>

@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using MQTTnet;
+using MQTTnet.Protocol;
 using MQTTnet.Server;
 
 namespace Ava.MqttTool.Views;
@@ -74,6 +75,11 @@ public partial class ServerView : Window
 
             return Task.CompletedTask;
         };
+        _mqttServer.InterceptingPublishAsync += args =>
+        {
+            Log($"收到客户端{args.ClientId}的消息: {args.ApplicationMessage.ConvertPayloadToString()}");
+            return Task.CompletedTask;
+        };
         _mqttServer.ClientSubscribedTopicAsync += args =>
         {
             if (!Topics.Contains(args.TopicFilter.Topic))
@@ -81,9 +87,10 @@ public partial class ServerView : Window
                 Topics.Add(args.TopicFilter.Topic);
                 Dispatcher.UIThread.Invoke(() => { TopicTextBox.Text = String.Join(Environment.NewLine, Topics); });
             }
+
             return Task.CompletedTask;
         };
-        
+
         _mqttServer.ClientUnsubscribedTopicAsync += args =>
         {
             if (!Topics.Contains(args.TopicFilter))
@@ -91,15 +98,19 @@ public partial class ServerView : Window
                 Topics.Add(args.TopicFilter);
                 Dispatcher.UIThread.Invoke(() => { TopicTextBox.Text = String.Join(Environment.NewLine, Topics); });
             }
+
             return Task.CompletedTask;
         };
 
-        // _mqttServer.ValidatingConnectionAsync += args =>
-        // {
-        //     if(args.UserName != UserName.Text && args.Password != Password.Text)
-        //         args.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
-        //     return Task.CompletedTask;
-        // };
+        _mqttServer.ValidatingConnectionAsync += args =>
+        {
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                if (args.UserName != UserName.Text || args.Password != Password.Text)
+                    args.ReasonCode = MqttConnectReasonCode.BadUserNameOrPassword;
+            });
+            return Task.CompletedTask;
+        };
 
         TaskClient.Run(async () => { await _mqttServer.StartAsync(); });
     }

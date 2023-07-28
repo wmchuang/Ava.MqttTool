@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
+using SukiUI.MessageBox;
 
 namespace Ava.MqttTool.Utils;
 
@@ -34,6 +39,15 @@ public static class TaskClient
             t?.Exception?.Handle(ex =>
             {
                 catchDo?.Invoke();
+
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime)
+                        .Windows.FirstOrDefault(x => x.IsVisible && x.IsActive);
+                    if(window != null)
+                       MessageBox.Error(window, "Error", ex.Message);
+                });
+               
                 return true;
             });
         }, TaskContinuationOptions.OnlyOnFaulted);
