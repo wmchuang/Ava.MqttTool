@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
+        <OutputType Condition="'$(Configuration.toUpper())' != 'DEBUG'">WinExe</OutputType>
+        <OutputType Condition="'$(Configuration.toUpper())' == 'DEBUG'">Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -8,6 +9,31 @@
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
+        <Version>1.0.0</Version>
+        <FileVersion>1.0.0</FileVersion>
+        <!--添加aot-->
+        <PublishAot>true</PublishAot>
+    </PropertyGroup>
+
+    <!-- Information for Dotnet.Bundle to Generate macOS app-->
+    <PropertyGroup>
+        <CFBundleName>$(AssemblyName)</CFBundleName>
+        <CFBundleDisplayName>$(AssemblyName)</CFBundleDisplayName>
+        <CFBundleIdentifier>com.$(username).$(AssemblyName)</CFBundleIdentifier>
+        <CFBundleVersion>1.0.0</CFBundleVersion>
+        <CFBundlePackageType>APPL</CFBundlePackageType>
+        <!--<CFBundleSignature>????</CFBundleSignature>-->
+        <CFBundleExecutable>$(AssemblyName)</CFBundleExecutable>
+        <CFBundleIconFile>Assets/app.icns</CFBundleIconFile>
+        <NSPrincipalClass>NSApplication</NSPrincipalClass>
+        <NSHighResolutionCapable>true</NSHighResolutionCapable>
+        <CFBundleShortVersionString>1.0</CFBundleShortVersionString>
+        <!-- Optional -->
+        <NSRequiresAquaSystemAppearance>true</NSRequiresAquaSystemAppearance>
+    </PropertyGroup>
+    
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
@@ -21,6 +47,10 @@
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
         <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0" />
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0" />
+        <PackageReference Include="Costura.Fody" Version="5.7.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="MQTTnet" Version="4.2.1.781" />
         <PackageReference Include="SukiUI" Version="5.0.1" />
     </ItemGroup>
