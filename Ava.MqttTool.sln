@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ava.MqttTool", "Ava.MqttTool\Ava.MqttTool.csproj", "{EB547675-B58A-4473-8F84-076986F64777}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttService", "MqttService\MqttService.csproj", "{81AD0EAB-F7B0-4D6D-AE38-8A6DABBB729A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{EB547675-B58A-4473-8F84-076986F64777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB547675-B58A-4473-8F84-076986F64777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB547675-B58A-4473-8F84-076986F64777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81AD0EAB-F7B0-4D6D-AE38-8A6DABBB729A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81AD0EAB-F7B0-4D6D-AE38-8A6DABBB729A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81AD0EAB-F7B0-4D6D-AE38-8A6DABBB729A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81AD0EAB-F7B0-4D6D-AE38-8A6DABBB729A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
