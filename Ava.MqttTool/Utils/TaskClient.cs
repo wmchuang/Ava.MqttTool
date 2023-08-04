@@ -44,8 +44,12 @@ public static class TaskClient
                 {
                     var window = ((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime)
                         .Windows.FirstOrDefault(x => x.IsVisible && x.IsActive);
-                    if(window != null)
-                       MessageBox.Error(window, "Error", ex.Message);
+                    if (window != null)
+                    {
+                        LoggerClient.Error(ex);
+                        MessageBox.Error(window, "Error", ex.Message);
+                    }
+
                 });
                
                 return true;

@@ -7,6 +7,7 @@
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -52,6 +53,8 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MQTTnet" Version="4.2.1.781" />
+        <PackageReference Include="NLog" Version="5.2.2" />
+        <PackageReference Include="NLog.Config" Version="4.7.15" />
         <PackageReference Include="SukiUI" Version="5.0.1" />
     </ItemGroup>
 
