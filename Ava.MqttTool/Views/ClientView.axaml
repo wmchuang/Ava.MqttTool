@@ -23,6 +23,7 @@
 
             <Button Content="连接" Name="Start" Click="Start_OnClick" />
             <Button Content="断开" Name="Stop" Click="Stop_OnClick" />
+            <Button Content="清空消息" Name="Clear" Click="Clear_OnClick" />
         </StackPanel>
 
         <GridSplitter Grid.Column="1" />
@@ -30,12 +31,21 @@
             <Grid RowDefinitions="Auto,Auto,*">
                 <Grid RowDefinitions="Auto,*">
                     <suki:GroupBox Header="订阅">
-                        <Grid ColumnDefinitions="Auto,*,Auto">
-                            <TextBlock Text="主题" VerticalAlignment="Center" />
-                            <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Center"
-                                     Padding="0" Grid.Column="1" Text="topic01" Name="Topic"/>
-                            <Button Content="订阅" Grid.Column="2" Name="Subscribe" Click="Subscribe_OnClick"></Button>
+                        <Grid RowDefinitions="*,*">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <TextBlock Text="已订阅主题" VerticalAlignment="Center" />
+                                <TextBox VerticalContentAlignment="Center"
+                                         Padding="0" Grid.Column="1" Name="AllTopic" />
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Grid.Row="1">
+                                <TextBlock Text="主题" VerticalAlignment="Center" />
+                                <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Center"
+                                         Padding="0" Grid.Column="1" Text="topic01" Name="Topic"/>
+                                <Button Content="订阅" Grid.Column="2" Name="Subscribe" Click="Subscribe_OnClick"></Button>
+                                <Button Content="取消订阅" Grid.Column="3" Name="UnSubscribe" Click="UnSubscribe_OnClick"></Button>
+                            </Grid>
                         </Grid>
+                        
                     </suki:GroupBox>
                     <suki:GroupBox Header="发布" Grid.Row="1">
                         <StackPanel Orientation="Vertical">

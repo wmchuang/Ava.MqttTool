@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Ava.MqttTool.Views;
 public partial class ClientView : Window
 {
     private IMqttClient _mqttClient;
+
+    private List<string> AllTopics = new();
 
     public ClientView()
     {
@@ -84,6 +87,10 @@ public partial class ClientView : Window
                 var topic = string.Empty;
                 Dispatcher.UIThread.Invoke(() => { topic = Topic.Text; });
                 await _mqttClient.SubscribeAsync(topic);
+
+                AllTopics.Add(topic);
+                Dispatcher.UIThread.Invoke(() => {  this.AllTopic.Text = string.Join(',',AllTopics); });
+               
             }
         });
     }
@@ -112,5 +119,26 @@ public partial class ClientView : Window
 
             TaskClient.Run(async () => { await _mqttClient.PublishAsync(applicationMessage); });
         }
+    }
+
+    private void Clear_OnClick(object? sender, RoutedEventArgs e)
+    {
+        this.BoxMessage.Text = string.Empty;
+    }
+
+    private void UnSubscribe_OnClick(object? sender, RoutedEventArgs e)
+    {
+        _ = TaskClient.Run(async () =>
+        {
+            if (_mqttClient.IsConnected)
+            {
+                var topic = string.Empty;
+                Dispatcher.UIThread.Invoke(() => { topic = Topic.Text; });
+                await _mqttClient.UnsubscribeAsync(topic);
+
+                AllTopics.Remove(topic);
+                Dispatcher.UIThread.Invoke(() => {  this.AllTopic.Text = string.Join(',',AllTopics); });
+            }
+        });
     }
 }
