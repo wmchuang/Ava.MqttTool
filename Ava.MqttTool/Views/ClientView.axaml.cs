@@ -52,10 +52,10 @@ public partial class ClientView : Window
     private void Start_OnClick(object? sender, RoutedEventArgs e)
     {
         var mqttClientOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer(Ip.Text,Convert.ToInt32(Port.Text))
+            .WithTcpServer(Ip.Text, Convert.ToInt32(Port.Text))
             .WithoutPacketFragmentation()
             .WithClientId(ClientId.Text)
-            .WithCredentials(UserName.Text,Password.Text)
+            .WithCredentials(UserName.Text, Password.Text)
             .Build();
 
         TaskClient.Run(async () =>
@@ -74,6 +74,10 @@ public partial class ClientView : Window
             if (_mqttClient.IsConnected)
             {
                 await _mqttClient.DisconnectAsync();
+
+                //断开连接时，停止所有监听
+                AllTopics.Clear();
+                Dispatcher.UIThread.Invoke(() => { this.AllTopic.Text = string.Empty; });
             }
         });
     }
@@ -89,8 +93,7 @@ public partial class ClientView : Window
                 await _mqttClient.SubscribeAsync(topic);
 
                 AllTopics.Add(topic);
-                Dispatcher.UIThread.Invoke(() => {  this.AllTopic.Text = string.Join(',',AllTopics); });
-               
+                Dispatcher.UIThread.Invoke(() => { this.AllTopic.Text = string.Join(',', AllTopics); });
             }
         });
     }
@@ -137,7 +140,7 @@ public partial class ClientView : Window
                 await _mqttClient.UnsubscribeAsync(topic);
 
                 AllTopics.Remove(topic);
-                Dispatcher.UIThread.Invoke(() => {  this.AllTopic.Text = string.Join(',',AllTopics); });
+                Dispatcher.UIThread.Invoke(() => { this.AllTopic.Text = string.Join(',', AllTopics); });
             }
         });
     }

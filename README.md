@@ -12,6 +12,14 @@ Ava.MqttTool是根据Avalonia框架和MQTTnet库写的一个简单的mqtt服务�
 
 
 
+## Aot发布
+
+```
+dotnet publish -r win-x64 -c release
+```
+
+
+
 ## 鸣谢
 
 [Avalonia](https://github.com/AvaloniaUI/Avalonia)
