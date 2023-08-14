@@ -37,6 +37,10 @@ public partial class ClientView : Window
         _mqttClient.DisconnectedAsync += args =>
         {
             Log("客户端已断开连接");
+            
+            //断开连接时，停止所有监听
+            AllTopics.Clear();
+            Dispatcher.UIThread.Invoke(() => { this.AllTopic.Text = string.Empty; });
             return Task.CompletedTask;
         };
 
@@ -75,9 +79,7 @@ public partial class ClientView : Window
             {
                 await _mqttClient.DisconnectAsync();
 
-                //断开连接时，停止所有监听
-                AllTopics.Clear();
-                Dispatcher.UIThread.Invoke(() => { this.AllTopic.Text = string.Empty; });
+               
             }
         });
     }
